@@ -53,6 +53,16 @@ class TestTask(unittest.TestCase):
         Ax = t.a @ t.x
         npt.assert_allclose(Ax, t.b, rtol=1e-6, atol=1e-6)
 
+        def test_json_roundtrip_equality(self):
+            """Vérifie que to_json() puis from_json() reconstruit un Task identique (a == b)."""
+            a = Task(identifier=7, size=10)
+            a.work()  # on teste aussi la sérialisation de x et time
+
+            txt = a.to_json()
+            b = Task.from_json(txt)
+
+            self.assertTrue(a == b)
+
 
 if __name__ == "__main__":
     unittest.main()
