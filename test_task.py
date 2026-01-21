@@ -36,20 +36,15 @@ class TestTask(unittest.TestCase):
         size = 10  # petite taille pour la vitesse des tests
         t = Task(size=size)
 
-        # avant work : x doit être nul et time = 0
         npt.assert_allclose(t.x, np.zeros(size))
         self.assertEqual(t.time, 0)
 
-        # exécution du travail
         t.work()
 
-        # après work : x doit avoir changé
         self.assertFalse(np.allclose(t.x, np.zeros(size)))
 
-        # le temps doit être strictement positif
         self.assertGreater(t.time, 0)
 
-        # vérification mathématique : A·x ≈ b
         Ax = t.a @ t.x
         npt.assert_allclose(Ax, t.b, rtol=1e-6, atol=1e-6)
 
